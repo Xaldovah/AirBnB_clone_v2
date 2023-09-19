@@ -15,8 +15,8 @@ class FileStorage:
         else:
             filtered_objs = {}
             for key, value in FileStorage.__objects.items():
-                if type(obj) == cls:
-                    filtered_objs[key] = obj
+                if isinstance(value, cls):
+                    filtered_objs[key] = value 
             return filtered_objs
 
     def new(self, obj):
@@ -54,6 +54,8 @@ class FileStorage:
                 for key, val in temp.items():
                         self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
+            pass
+        except json.decoder.JSONDecodeError:
             pass
 
     def delete(self, obj=None):
