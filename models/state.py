@@ -21,6 +21,12 @@ class State(BaseModel, Base):
     else:
         name = ""
 
+    def __init__(self, *args, **kwargs):
+        """initialize the class"""
+        super().__init__(*args, **kwargs)
+        if not self.id:
+            self.id = uuid.uuid4()
+
     @property
     def cities(self):
         """returns the list of City instances

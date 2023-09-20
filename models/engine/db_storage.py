@@ -13,6 +13,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 from os import getenv
 
+
 class DBStorage:
     """The DBStorage class"""
 
@@ -42,7 +43,7 @@ class DBStorage:
 
         if cls is not None:
             classes = [cls]
-        
+
         for c in classes:
             result = self.__session.query(c)
 
@@ -50,7 +51,7 @@ class DBStorage:
                 key = '{}.{}'.format(i.__class__.__name__, i.id)
                 obj[key] = i
         return obj
-    
+
     def new(self, obj):
         """ add the object to the current database session"""
 
@@ -73,7 +74,8 @@ class DBStorage:
 
         Base.metadata.create_all(self.__engine)
 
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(
+                bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
 
         self.__session = Session()
@@ -82,5 +84,3 @@ class DBStorage:
         """close the current session"""
 
         self.__session.close()
-
-
