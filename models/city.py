@@ -19,3 +19,7 @@ class City(BaseModel, Base):
     else:
         state_id = ""
         name = ""
+
+    def __repr__(self):
+        """return a string representation of the object"""
+        return "[City] ({}) {}".format(self.id, self.to_dict())

@@ -32,3 +32,7 @@ class State(BaseModel, Base):
             if v.state_id == self.id:
                 cities.append(v)
         return cities
+
+    def __repr__(self):
+        """return a string representation of the object"""
+        return "[State] ({}) {}".format(self.id, self.to_dict())
