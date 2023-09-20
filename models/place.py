@@ -1,10 +1,20 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
 import models
 from models.review import Review
+from os import getenv
+from models.amenity import Amenity
+
+
+place_amenity = Table('place_amenity', Base.metadata,
+                      Column('place_id', String(60), ForeignKey('places.id'),
+                             primary_key=True, nullable=False),
+                      Column('amenity_id', String(60),
+                             ForeignKey('amenities.id'),
+                             primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -25,6 +35,9 @@ class Place(BaseModel, Base):
         longitude = Column(Float, nullable=True)
         reviews = relationship(
                 "Review", backref="place", cascade="all, delete-orphan")
+        amenities = relationship(
+            "Amenity", secondary=place_amenity, viewonly=False,
+            backref="place_amenities")
         amenity_ids = []
     else:
         city_id = ""
@@ -39,15 +52,27 @@ class Place(BaseModel, Base):
         longitude = 0.0
         amenity_ids = []
 
-        @property
-        def reviews(self):
-            """Get a list of all linked Reviews.
-            """
+    @property
+    def reviews(self):
+        """Get a list of all linked Reviews."""
+        rev_list = []
+        for rev in models.storage.all(Review).values():
+            if rev.place_id == self.id:
+                rev_list.append(rev)
+        return rev_list
 
-            rev_list = []
+    @property
+    def amenities(self):
+        """returns the list of Amenity instances"""
+        amn_list = []
+        for amn in models.storage.all(Amenity).values():
+            if amn.id in self.amenity_ids:
+                amn_list.append(amn)
+        return amn_list
 
-            for rev in models.storage.all(Review).values():
-                if review.place_id == self.id:
-                    rev_list.append(rev)
-
-            return rev_list
+    @amenities.setter
+    def amenities(self, value):
+        """handles append method for adding an Amenity.id
+        to the attribute amenity_ids"""
+        if isinstance(value, Amenity):
+            self.amenity_ids.append(value.id)
