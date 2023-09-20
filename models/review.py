@@ -19,3 +19,7 @@ class Review(BaseModel, Base):
         place_id = ""
         user_id = ""
         text = ""
+
+    def __repr__(self):
+        """return a string representation of the object"""
+        return "[Review] ({}) {}".format(self.id, self.to_dict())

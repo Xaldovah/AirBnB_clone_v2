@@ -26,3 +26,7 @@ class User(BaseModel, Base):
         password = ""
         first_name = ""
         last_name = ""
+
+    def __repr__(self):
+        """return a string representation of the object"""
+        return "[User] ({}) {}".format(self.id, self.to_dict())

@@ -76,3 +76,7 @@ class Place(BaseModel, Base):
         to the attribute amenity_ids"""
         if isinstance(value, Amenity):
             self.amenity_ids.append(value.id)
+
+    def __repr__(self):
+        """return a string representation of the object"""
+        return "[Place] ({}) {}".format(self.id, self.to_dict())

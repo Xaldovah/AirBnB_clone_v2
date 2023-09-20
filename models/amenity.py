@@ -16,3 +16,7 @@ class Amenity(BaseModel, Base):
                 'Place', secondary='place_amenity', backref='amenities')
     else:
         name = ""
+
+    def __repr__(self):
+        """return a string representation of the object"""
+        return "[Amenity] ({}) {}".format(self.id, self.to_dict())
