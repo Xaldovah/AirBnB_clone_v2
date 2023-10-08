@@ -8,7 +8,7 @@ from os.path import exists, isfile, splitext, basename
 from datetime import datetime
 
 # Define the hosts (your web servers)
-env.hosts = ['<265468-web-01>', '<265468-web-02>']
+env.hosts = ['52.3.254.195', '54.197.42.179']
 
 
 def do_deploy(archive_path):
