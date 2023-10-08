@@ -1,3 +1,4 @@
+# Sets up your web servers for the deployment of web_static
 include stdlib
 
 exec { 'Update lists':
