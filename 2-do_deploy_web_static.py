@@ -1,14 +1,11 @@
 #!/usr/bin/python3
-"""
-Fabric script for deploying a web_static archive to web servers.
-"""
-
+from datetime import datetime
 from fabric.api import *
 from os import path
-from datetime import datetime
 
-# Define the hosts (your web servers)
+
 env.hosts = ['52.3.254.195', '54.197.42.179']
+
 
 def do_pack():
     """Generates a .tgz archive from the contents
@@ -23,7 +20,9 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """Deploy a web_static archive to the web server(s)."""
+    """Distributes an .tgz archive through web servers
+    """
+
     if path.exists(archive_path):
         archive = archive_path.split('/')[1]
         a_path = "/tmp/{}".format(archive)
